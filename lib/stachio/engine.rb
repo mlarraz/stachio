@@ -3,7 +3,15 @@ module Stachio
     isolate_namespace Stachio
 
     require 'stache'
-    Stache.use :mustache ## Use mustache templates for views
+    require "jquery-rails"
+    require "mustache"
 
+    require "stache"     ## use mustache/handlebars for views
+    Stache.use :mustache
+
+    config.generators do |g|
+      g.test_framework :rspec
+      g.integration_tool :rspec
+    end
   end
 end

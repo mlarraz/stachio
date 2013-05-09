@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount Stachio::Engine => "/stachio"
+  mount Stachio::Engine => "/"
 end

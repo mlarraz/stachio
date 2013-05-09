@@ -6,6 +6,8 @@ require File.expand_path("../dummy/config/environment", __FILE__)
 
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'simplecov'
+require 'pry'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -38,4 +40,8 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  # Mountable engine, y'all. Let's get the routing right.
+  config.before(:each) { @routes = Stachio::Engine.routes }
+  config.before(:each, type: :routing)    { @routes = Stachio::Engine.routes }
 end

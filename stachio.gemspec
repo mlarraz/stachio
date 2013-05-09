@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Stachio is a rails engine which aims to facilitate the creation, retrieval, update, & deletion of mustache templates in a relational database."
 
   s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
 
   s.add_dependency "rails", "~> 3.2.13"
   s.add_dependency "jquery-rails"           ## required by the dummy application
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "rspec-fire"
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'simplecov-rcov'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'pry'
 end
