@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stachio</title>
+  <%= stylesheet_link_tag    "stachio/application", :media => "all" %>
+  <%= javascript_include_tag "stachio/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
