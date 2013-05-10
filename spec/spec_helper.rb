@@ -42,6 +42,9 @@ RSpec.configure do |config|
   config.order = "random"
 
   # Mountable engine, y'all. Let's get the routing right.
-  config.before(:each) { @routes = Stachio::Engine.routes }
-  config.before(:each, type: :routing)    { @routes = Stachio::Engine.routes }
+  config.include Stachio::Engine.routes.url_helpers
+
+  [:controller, :requests, :routing].each do |type|
+    config.before(:each, :type => type) { self.routes = Stachio::Engine.routes }
+  end
 end

@@ -20,17 +20,17 @@ require 'spec_helper'
 
 module Stachio
   describe TemplatesController do
-  
+
     # This should return the minimal set of attributes required to create a valid
     # Template. As you add validations to Template, be sure to
     # adjust the attributes here as well.
     let(:valid_attributes) { { "template_name" => "MyString" } }
-  
+
     # This should return the minimal set of values that should be in the session
     # in order to pass any filters (e.g. authentication) defined in
     # TemplatesController. Be sure to keep this updated too.
     let(:valid_session) { {} }
-  
+
     describe "GET index" do
       it "assigns all templates as @templates" do
         template = Template.create! valid_attributes
@@ -38,7 +38,7 @@ module Stachio
         assigns(:templates).should eq([template])
       end
     end
-  
+
     describe "GET show" do
       it "assigns the requested template as @template" do
         template = Template.create! valid_attributes
@@ -46,14 +46,14 @@ module Stachio
         assigns(:template).should eq(template)
       end
     end
-  
+
     describe "GET new" do
       it "assigns a new template as @template" do
         get :new, {}, valid_session
         assigns(:template).should be_a_new(Template)
       end
     end
-  
+
     describe "GET edit" do
       it "assigns the requested template as @template" do
         template = Template.create! valid_attributes
@@ -61,7 +61,7 @@ module Stachio
         assigns(:template).should eq(template)
       end
     end
-  
+
     describe "POST create" do
       describe "with valid params" do
         it "creates a new Template" do
@@ -69,19 +69,19 @@ module Stachio
             post :create, {:template => valid_attributes}, valid_session
           }.to change(Template, :count).by(1)
         end
-  
+
         it "assigns a newly created template as @template" do
           post :create, {:template => valid_attributes}, valid_session
           assigns(:template).should be_a(Template)
           assigns(:template).should be_persisted
         end
-  
+
         it "redirects to the created template" do
           post :create, {:template => valid_attributes}, valid_session
           response.should redirect_to(Template.last)
         end
       end
-  
+
       describe "with invalid params" do
         it "assigns a newly created but unsaved template as @template" do
           # Trigger the behavior that occurs when invalid params are submitted
@@ -89,7 +89,7 @@ module Stachio
           post :create, {:template => { "template_name" => "invalid value" }}, valid_session
           assigns(:template).should be_a_new(Template)
         end
-  
+
         it "re-renders the 'new' template" do
           # Trigger the behavior that occurs when invalid params are submitted
           Template.any_instance.stub(:save).and_return(false)
@@ -98,7 +98,7 @@ module Stachio
         end
       end
     end
-  
+
     describe "PUT update" do
       describe "with valid params" do
         it "updates the requested template" do
@@ -110,20 +110,20 @@ module Stachio
           Template.any_instance.should_receive(:update_attributes).with({ "template_name" => "MyString" })
           put :update, {:id => template.to_param, :template => { "template_name" => "MyString" }}, valid_session
         end
-  
+
         it "assigns the requested template as @template" do
           template = Template.create! valid_attributes
           put :update, {:id => template.to_param, :template => valid_attributes}, valid_session
           assigns(:template).should eq(template)
         end
-  
+
         it "redirects to the template" do
           template = Template.create! valid_attributes
           put :update, {:id => template.to_param, :template => valid_attributes}, valid_session
           response.should redirect_to(template)
         end
       end
-  
+
       describe "with invalid params" do
         it "assigns the template as @template" do
           template = Template.create! valid_attributes
@@ -132,7 +132,7 @@ module Stachio
           put :update, {:id => template.to_param, :template => { "template_name" => "invalid value" }}, valid_session
           assigns(:template).should eq(template)
         end
-  
+
         it "re-renders the 'edit' template" do
           template = Template.create! valid_attributes
           # Trigger the behavior that occurs when invalid params are submitted
@@ -142,7 +142,7 @@ module Stachio
         end
       end
     end
-  
+
     describe "DELETE destroy" do
       it "destroys the requested template" do
         template = Template.create! valid_attributes
@@ -150,13 +150,14 @@ module Stachio
           delete :destroy, {:id => template.to_param}, valid_session
         }.to change(Template, :count).by(-1)
       end
-  
+
       it "redirects to the templates list" do
         template = Template.create! valid_attributes
         delete :destroy, {:id => template.to_param}, valid_session
-        response.should redirect_to(templates_url)
+        #response.should redirect_to(templates_url)       ## Requires default_host_url to be set, but we're in an engine.
+        response.should redirect_to(templates_path)       ## So, instead, we test the redirection against the relative path
       end
     end
-  
+
   end
 end
