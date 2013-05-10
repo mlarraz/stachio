@@ -24,7 +24,11 @@ module Stachio
     # This should return the minimal set of attributes required to create a valid
     # Template. As you add validations to Template, be sure to
     # adjust the attributes here as well.
-    let(:valid_attributes) { { "template_name" => "MyString" } }
+    let(:valid_attributes) do
+      { "template_name" => "MyString",
+        "content" => "I am a {{teapot}}",
+      }
+    end
 
     # This should return the minimal set of values that should be in the session
     # in order to pass any filters (e.g. authentication) defined in
