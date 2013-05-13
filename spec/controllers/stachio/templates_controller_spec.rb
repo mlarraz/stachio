@@ -20,6 +20,9 @@ require 'spec_helper'
 
 module Stachio
   describe TemplatesController do
+    # 'render_views' will render any erb /haml/whatever as part of the tests, thus
+    # providing some (minimal) assurance that nothing stupid was done
+    render_views
 
     # This should return the minimal set of attributes required to create a valid
     # Template. As you add validations to Template, be sure to
