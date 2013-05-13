@@ -44,6 +44,13 @@ module Stachio
         get :index, {}, valid_session
         assigns(:templates).should eq([template])
       end
+
+      it "does not require permission" do
+        Stachio::Engine.config.stub(:readonly).and_return(true)
+        template = Template.create! valid_attributes
+        get :index, {}, valid_session
+        response.should_not redirect_to(templates_path)
+      end
     end
 
     describe "GET show" do
@@ -52,9 +59,22 @@ module Stachio
         get :show, {:id => template.to_param}, valid_session
         assigns(:template).should eq(template)
       end
+
+      it "does not require permission" do
+        Stachio::Engine.config.stub(:readonly).and_return(true)
+        template = Template.create! valid_attributes
+        get :show, {:id => template.to_param}, valid_session
+        response.should_not redirect_to(templates_path)
+      end
     end
 
     describe "GET new" do
+      it "requires permission" do
+        Stachio::Engine.config.stub(:readonly).and_return(true)
+        get :new, {}, valid_session
+        response.should redirect_to(templates_path)
+      end
+
       it "assigns a new template as @template" do
         get :new, {}, valid_session
         assigns(:template).should be_a_new(Template)
@@ -62,6 +82,13 @@ module Stachio
     end
 
     describe "GET edit" do
+      it "requires permission" do
+        Stachio::Engine.config.stub(:readonly).and_return(true)
+        template = Template.create! valid_attributes
+        get :edit, {:id => template.to_param}, valid_session
+        response.should redirect_to(templates_path)
+      end
+
       it "assigns the requested template as @template" do
         template = Template.create! valid_attributes
         get :edit, {:id => template.to_param}, valid_session
@@ -71,6 +98,14 @@ module Stachio
 
     describe "POST create" do
       describe "with valid params" do
+        it "requires permission" do
+          Stachio::Engine.config.stub(:readonly).and_return(true)
+          expect {
+            post :create, {:template => valid_attributes}, valid_session
+          }.to_not change(Template, :count).by(1)
+          response.should redirect_to(templates_path)
+        end
+
         it "creates a new Template" do
           expect {
             post :create, {:template => valid_attributes}, valid_session
@@ -108,6 +143,14 @@ module Stachio
 
     describe "PUT update" do
       describe "with valid params" do
+        it "requires permission" do
+          template = Template.create! valid_attributes
+          Stachio::Engine.config.stub(:readonly).and_return(true)
+          Template.any_instance.should_not_receive(:update_attributes).with({ "template_name" => "MyString" })
+          put :update, {:id => template.to_param, :template => { "template_name" => "MyString" }}, valid_session
+          response.should redirect_to(templates_path)
+        end
+
         it "updates the requested template" do
           template = Template.create! valid_attributes
           # Assuming there are no other templates in the database, this
@@ -151,6 +194,17 @@ module Stachio
     end
 
     describe "DELETE destroy" do
+      it "requires permission" do
+        template = Template.create! valid_attributes
+        Stachio::Engine.config.stub(:readonly).and_return(true)
+
+        expect {
+          delete :destroy, {:id => template.to_param}, valid_session
+        }.to_not change(Template, :count).by(-1)
+
+        response.should redirect_to(templates_path)
+      end
+
       it "destroys the requested template" do
         template = Template.create! valid_attributes
         expect {

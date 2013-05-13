@@ -2,6 +2,10 @@ require_dependency "stachio/application_controller"
 
 module Stachio
   class TemplatesController < ApplicationController
+
+    before_filter      :permission
+    skip_before_filter :permission, :only => [:index, :show]
+
     # GET /templates
     # GET /templates.json
     def index
@@ -82,6 +86,14 @@ module Stachio
         format.html { redirect_to templates_url }
         format.json { head :no_content }
       end
+    end
+
+    private
+
+    def permission
+      return true unless readonly
+      flash[:notice] = "Templates are readonly"
+      redirect_to :action => :index
     end
   end
 end

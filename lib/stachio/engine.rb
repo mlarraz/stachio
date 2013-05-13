@@ -9,6 +9,8 @@ module Stachio
     require "stache"     ## use mustache/handlebars for views
     Stache.use :mustache
 
+    config.readonly = false unless defined?(Rails) && Rails.env.production?
+
     config.generators do |g|
       g.test_framework :rspec
       g.integration_tool :rspec

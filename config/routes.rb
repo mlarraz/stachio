@@ -1,4 +1,3 @@
 Stachio::Engine.routes.draw do
-  resources :templates
-  root :to => 'templates#index'
+  resources :templates, :path => '/'
 end
