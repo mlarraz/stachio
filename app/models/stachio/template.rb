@@ -7,12 +7,25 @@ module Stachio
     attr_accessible :template_name, :content
     validates_presence_of :template_name, :content
 
-    attr_accessor :presents
+    attr_accessor :presents, :rendered
 
-    def compose
-      Mustache.render(content, presents) unless presents.nil?
+    def reset
+      self.rendered = nil
     end
-    alias_method :composite, :compose
-    alias_method :render,    :compose
+
+    def render(options={})
+      options = options.with_indifferent_access
+      reset if !!(options[:force] or options[:reset])
+      self.rendered ||= Mustache.render(content, presents) unless presents.nil?
+    end
+    alias_method :assemble,  :render
+    alias_method :composite, :render
+    alias_method :compose,   :render
+
+    def present(values=nil, options={})
+      return render if values.nil?
+      self.presents = values
+      render options.merge(:force => true)
+    end
   end
 end

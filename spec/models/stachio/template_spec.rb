@@ -40,30 +40,51 @@ module Stachio
 
     it "reports an error when it can't compose the message" do
       template.content = "I am not a valid {{horseradish}}"
-      expect { template.compose }.to raise_error(Mustache::ContextMiss)
+      expect { template.render }.to raise_error(Mustache::ContextMiss)
     end
 
-    describe 'presenting an object' do
-      it "composes messages using the content of the template" do
+    describe '#render' do
+      it "renders using the content of the template" do
         template.presents.should be_a_kind_of(Class)
-        template.compose.should == "I am a TEAPOT"
+        template.render.should == "I am a TEAPOT"
+      end
+
+      it "can render values from a hash" do
+        template.presents = {:teapot => 'TEAPOT' }
+        template.render.should == "I am a TEAPOT"
+      end
+
+      it "renders nothing when presenting a nil" do
+        template.presents = nil
+        template.render.should == nil
+      end
+
+      it "memoizes rendered text" do
+        template.render.should   == "I am a TEAPOT"
+        template.rendered.should == "I am a TEAPOT"
+
+        template.presents = {:teapot => 'HORSERADISH'}
+
+        template.render.should   == "I am a TEAPOT"
+        template.rendered.should == "I am a TEAPOT"
+      end
+
+      it "can be reset when memoized" do
+        template.render.should   == "I am a TEAPOT"
+        template.presents = {:teapot => 'HORSERADISH'}
+
+        template.render.should                 == "I am a TEAPOT"
+        template.render(:force => true).should == "I am a HORSERADISH"
       end
     end
 
-    describe 'presenting a hash' do
-      let(:presents)  {{ :teapot => 'TEAPOT' }}
-      it "composes messages using the content of the template" do
-        template.presents.should be_a_kind_of(Hash)
-        template.compose.should == "I am a TEAPOT"
+    describe '#present' do
+      it "sets attribute 'presents' & renders all at once" do
+        template.render.should   == "I am a TEAPOT"
+        template.present(:teapot => 'TURNIP').should == "I am a TURNIP"
+        template.presents.should == {:teapot => 'TURNIP'}
       end
     end
 
-    describe 'presenting a nil' do
-      let(:presents)  { nil }
-      it "composes messages using the content of the template" do
-        template.presents.should be_nil
-        template.compose.should == nil
-      end
-    end
   end
 end
