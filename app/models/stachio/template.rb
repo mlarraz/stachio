@@ -1,21 +1,18 @@
-require 'stachio/proxy'
-
 module Stachio
+  Mustache.raise_on_context_miss = true
+
   class Template < ActiveRecord::Base
     lookup_by :template_name
 
     attr_accessible :template_name, :content
     validates_presence_of :template_name, :content
 
-    attr_accessor :proxied
-
-    def proxy
-      @proxy ||= Stachio::Proxy.new(proxied) unless proxied.nil?
-    end
+    attr_accessor :presents
 
     def compose
-      proxy.template = content
-      proxy.render
+      Mustache.render(content, presents) unless presents.nil?
     end
+    alias_method :composite, :compose
+    alias_method :render,    :compose
   end
 end

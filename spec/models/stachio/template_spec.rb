@@ -1,20 +1,16 @@
 require 'spec_helper'
 
 module Stachio
-  class MockProxyObject
-    def teapot
-      "TEAPOT"
-    end
-  end
-
   describe Template do
+    let(:presents) do
+      Class.new { def self.teapot; 'TEAPOT'; end }
+    end
+
     let(:template) do
-      attrs = { :template_name => "my silly teapot",
-                :content => "I am a {{teapot}}",
-              }
-      template = Template.new(attrs)
-      template.proxied = MockProxyObject.new
-      template
+      tmpl = Template.new :template_name => "mrs.potts",
+                          :content => "I am a {{teapot}}"
+      tmpl.presents = presents
+      tmpl
     end
 
     it "stores templates in the database" do
@@ -39,16 +35,35 @@ module Stachio
 
     it "fetches templates from the database using the template name" do
       template.save!
-      template.should == Template['my silly teapot']
-    end
-
-    it "composes messages using the content of the template" do
-      template.compose.should == "I am a TEAPOT"
+      template.should == Template['mrs.potts']
     end
 
     it "reports an error when it can't compose the message" do
       template.content = "I am not a valid {{horseradish}}"
       expect { template.compose }.to raise_error(Mustache::ContextMiss)
+    end
+
+    describe 'presenting an object' do
+      it "composes messages using the content of the template" do
+        template.presents.should be_a_kind_of(Class)
+        template.compose.should == "I am a TEAPOT"
+      end
+    end
+
+    describe 'presenting a hash' do
+      let(:presents)  {{ :teapot => 'TEAPOT' }}
+      it "composes messages using the content of the template" do
+        template.presents.should be_a_kind_of(Hash)
+        template.compose.should == "I am a TEAPOT"
+      end
+    end
+
+    describe 'presenting a nil' do
+      let(:presents)  { nil }
+      it "composes messages using the content of the template" do
+        template.presents.should be_nil
+        template.compose.should == nil
+      end
     end
   end
 end
