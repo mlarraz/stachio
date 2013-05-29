@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130509172418) do
+ActiveRecord::Schema.define(:version => 20130529132017) do
 
   create_table "stachio_templates", :force => true do |t|
     t.string   "template_name"
     t.text     "content"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.text     "description"
   end
 
 end

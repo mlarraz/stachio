@@ -11,13 +11,15 @@
 
 <% @templates.each do |template| %>
   <tr>
-    <td><%= template.template_name %></td>
-    <td><%= template.content %></td>
-    <td><%= link_to 'Show', template %></td>
-    <% unless readonly %>
-      <td><%= link_to 'Edit', edit_template_path(template) %></td>
-      <td><%= link_to 'Destroy', template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <% end %>
+    <td style="border: 1px solid grey; padding: 1ex; margin: 1ex;"><%= template.template_name %></td>
+    <td style="border: 1px solid grey; padding: 1ex; margin: 1ex;"><%= template.describe %></td>
+    <td style="border: 1px solid grey; padding: 1ex; margin: 1ex;">
+      <%= link_to 'Show', template %>
+      <% unless readonly %>
+        <%= link_to 'Edit', edit_template_path(template) %>
+        <%= link_to 'Destroy', template, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>

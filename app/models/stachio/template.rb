@@ -4,7 +4,7 @@ module Stachio
   class Template < ActiveRecord::Base
     lookup_by :template_name
 
-    attr_accessible :template_name, :content
+    attr_accessible :template_name, :description, :content
     validates_presence_of :template_name, :content
 
     attr_accessor :presents, :rendered
@@ -26,6 +26,10 @@ module Stachio
       return render if values.nil?
       self.presents = values
       render options.merge(:force => true)
+    end
+
+    def describe(n=32)
+      (description && description.size > n) ? description[0..n] + ' [...]' : description
     end
   end
 end
