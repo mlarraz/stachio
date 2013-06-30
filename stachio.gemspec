@@ -16,10 +16,10 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
 
-  s.add_dependency "rails", "~> 3.2.1"
+  s.add_dependency "rails", "~> 3.2.13"
   s.add_dependency "lookup_by"
   s.add_dependency "jquery-rails"           ## required by the dummy application
-  s.add_dependency "stache"                 ## use mustache/handlebars for views
+  s.add_dependency "stache", "~> 1.0.2"     ## use mustache/handlebars for views
   s.add_dependency "mustache"
   s.add_dependency "handlebars"
 
