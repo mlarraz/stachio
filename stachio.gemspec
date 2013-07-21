@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/bwthomas/stachio"
   s.summary     = "Stash your Stache with Stachio."
   s.description = "Stachio is a rails engine which aims to facilitate the creation, retrieval, update, & deletion of mustache templates in a relational database."
+  s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")

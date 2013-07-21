@@ -87,13 +87,5 @@ module Stachio
         format.json { head :no_content }
       end
     end
-
-    private
-
-    def permission
-      return true unless readonly
-      flash[:notice] = "Templates are readonly"
-      redirect_to :action => :index
-    end
   end
 end

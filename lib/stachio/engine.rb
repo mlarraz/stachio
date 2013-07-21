@@ -9,7 +9,7 @@ module Stachio
     require "stache"     ## use mustache/handlebars for views
     Stache.use :mustache
 
-    config.readonly = (defined?(Rails) && Rails.env.production?) ? true : false
+    # config.readonly = (defined?(Rails) && Rails.env.production?) ? true : false
 
     config.generators do |g|
       g.test_framework :rspec
