@@ -2,6 +2,7 @@
 log/*.log
 *.gem
 Gemfile.lock
+gemfiles/*.lock
 pkg/
 spec/dummy/db/*.sqlite3
 spec/dummy/log/*.log
