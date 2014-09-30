@@ -44,14 +44,14 @@ module Stachio
       it "assigns all templates as @templates" do
         template = Template.create! valid_attributes
         get :index, {}, valid_session
-        assigns(:templates).should eq([template])
+        expect(assigns(:templates)).to eq([template])
       end
 
       it "does not require permission" do
-        Stachio::Engine.config.stub(:readonly).and_return(true)
+        allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
         template = Template.create! valid_attributes
         get :index, {}, valid_session
-        response.should_not redirect_to(templates_path)
+        expect(response).not_to redirect_to(templates_path)
       end
     end
 
@@ -59,53 +59,53 @@ module Stachio
       it "assigns the requested template as @template" do
         template = Template.create! valid_attributes
         get :show, {:id => template.to_param}, valid_session
-        assigns(:template).should eq(template)
+        expect(assigns(:template)).to eq(template)
       end
 
       it "does not require permission" do
-        Stachio::Engine.config.stub(:readonly).and_return(true)
+        allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
         template = Template.create! valid_attributes
         get :show, {:id => template.to_param}, valid_session
-        response.should_not redirect_to(templates_path)
+        expect(response).not_to redirect_to(templates_path)
       end
     end
 
     describe "GET new" do
       it "requires permission" do
-        Stachio::Engine.config.stub(:readonly).and_return(true)
+        allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
         get :new, {}, valid_session
-        response.should redirect_to(templates_path)
+        expect(response).to redirect_to(templates_path)
       end
 
       it "assigns a new template as @template" do
         get :new, {}, valid_session
-        assigns(:template).should be_a_new(Template)
+        expect(assigns(:template)).to be_a_new(Template)
       end
     end
 
     describe "GET edit" do
       it "requires permission" do
-        Stachio::Engine.config.stub(:readonly).and_return(true)
+        allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
         template = Template.create! valid_attributes
         get :edit, {:id => template.to_param}, valid_session
-        response.should redirect_to(templates_path)
+        expect(response).to redirect_to(templates_path)
       end
 
       it "assigns the requested template as @template" do
         template = Template.create! valid_attributes
         get :edit, {:id => template.to_param}, valid_session
-        assigns(:template).should eq(template)
+        expect(assigns(:template)).to eq(template)
       end
     end
 
     describe "POST create" do
       describe "with valid params" do
         it "requires permission" do
-          Stachio::Engine.config.stub(:readonly).and_return(true)
+          allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
           expect {
             post :create, {:template => valid_attributes}, valid_session
           }.to_not change(Template, :count).by(1)
-          response.should redirect_to(templates_path)
+          expect(response).to redirect_to(templates_path)
         end
 
         it "creates a new Template" do
@@ -116,29 +116,29 @@ module Stachio
 
         it "assigns a newly created template as @template" do
           post :create, {:template => valid_attributes}, valid_session
-          assigns(:template).should be_a(Template)
-          assigns(:template).should be_persisted
+          expect(assigns(:template)).to be_a(Template)
+          expect(assigns(:template)).to be_persisted
         end
 
         it "redirects to the created template" do
           post :create, {:template => valid_attributes}, valid_session
-          response.should redirect_to(Template.last)
+          expect(response).to redirect_to(Template.last)
         end
       end
 
       describe "with invalid params" do
         it "assigns a newly created but unsaved template as @template" do
           # Trigger the behavior that occurs when invalid params are submitted
-          Template.any_instance.stub(:save).and_return(false)
+          allow_any_instance_of(Template).to receive(:save).and_return(false)
           post :create, {:template => { "template_name" => "invalid value" }}, valid_session
-          assigns(:template).should be_a_new(Template)
+          expect(assigns(:template)).to be_a_new(Template)
         end
 
         it "re-renders the 'new' template" do
           # Trigger the behavior that occurs when invalid params are submitted
-          Template.any_instance.stub(:save).and_return(false)
+          allow_any_instance_of(Template).to receive(:save).and_return(false)
           post :create, {:template => { "template_name" => "invalid value" }}, valid_session
-          response.should render_template("new")
+          expect(response).to render_template("new")
         end
       end
     end
@@ -147,10 +147,10 @@ module Stachio
       describe "with valid params" do
         it "requires permission" do
           template = Template.create! valid_attributes
-          Stachio::Engine.config.stub(:readonly).and_return(true)
-          Template.any_instance.should_not_receive(:update_attributes).with({ "template_name" => "MyString" })
+          allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
+          expect_any_instance_of(Template).not_to receive(:update_attributes).with({ "template_name" => "MyString" })
           put :update, {:id => template.to_param, :template => { "template_name" => "MyString" }}, valid_session
-          response.should redirect_to(templates_path)
+          expect(response).to redirect_to(templates_path)
         end
 
         it "updates the requested template" do
@@ -159,20 +159,20 @@ module Stachio
           # specifies that the Template created on the previous line
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
-          Template.any_instance.should_receive(:update_attributes).with({ "template_name" => "MyString" })
+          expect_any_instance_of(Template).to receive(:update_attributes).with({ "template_name" => "MyString" })
           put :update, {:id => template.to_param, :template => { "template_name" => "MyString" }}, valid_session
         end
 
         it "assigns the requested template as @template" do
           template = Template.create! valid_attributes
           put :update, {:id => template.to_param, :template => valid_attributes}, valid_session
-          assigns(:template).should eq(template)
+          expect(assigns(:template)).to eq(template)
         end
 
         it "redirects to the template" do
           template = Template.create! valid_attributes
           put :update, {:id => template.to_param, :template => valid_attributes}, valid_session
-          response.should redirect_to(template)
+          expect(response).to redirect_to(template)
         end
       end
 
@@ -180,17 +180,17 @@ module Stachio
         it "assigns the template as @template" do
           template = Template.create! valid_attributes
           # Trigger the behavior that occurs when invalid params are submitted
-          Template.any_instance.stub(:save).and_return(false)
+          allow_any_instance_of(Template).to receive(:save).and_return(false)
           put :update, {:id => template.to_param, :template => { "template_name" => "invalid value" }}, valid_session
-          assigns(:template).should eq(template)
+          expect(assigns(:template)).to eq(template)
         end
 
         it "re-renders the 'edit' template" do
           template = Template.create! valid_attributes
           # Trigger the behavior that occurs when invalid params are submitted
-          Template.any_instance.stub(:save).and_return(false)
+          allow_any_instance_of(Template).to receive(:save).and_return(false)
           put :update, {:id => template.to_param, :template => { "template_name" => "invalid value" }}, valid_session
-          response.should render_template("edit")
+          expect(response).to render_template("edit")
         end
       end
     end
@@ -198,13 +198,13 @@ module Stachio
     describe "DELETE destroy" do
       it "requires permission" do
         template = Template.create! valid_attributes
-        Stachio::Engine.config.stub(:readonly).and_return(true)
+        allow(Stachio::Engine.config).to receive(:readonly).and_return(true)
 
         expect {
           delete :destroy, {:id => template.to_param}, valid_session
         }.to_not change(Template, :count).by(-1)
 
-        response.should redirect_to(templates_path)
+        expect(response).to redirect_to(templates_path)
       end
 
       it "destroys the requested template" do
@@ -218,7 +218,7 @@ module Stachio
         template = Template.create! valid_attributes
         delete :destroy, {:id => template.to_param}, valid_session
         #response.should redirect_to(templates_url)       ## Requires default_host_url to be set, but we're in an engine.
-        response.should redirect_to(templates_path)       ## So, instead, we test the redirection against the relative path
+        expect(response).to redirect_to(templates_path)       ## So, instead, we test the redirection against the relative path
       end
     end
 
