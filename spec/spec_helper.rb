@@ -49,11 +49,5 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-
-  # Mountable engine, y'all. Let's get the routing right.
-  config.include Stachio::Engine.routes.url_helpers
-
-  [:controller, :requests, :routing].each do |type|
-    config.before(:each, :type => type) { self.routes = Stachio::Engine.routes }
-  end
 end
+

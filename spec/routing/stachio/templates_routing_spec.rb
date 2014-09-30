@@ -2,6 +2,8 @@ require "spec_helper"
 
 module Stachio
   describe TemplatesController do
+    routes { Stachio::Engine.routes }
+
     describe "routing" do
 
       it "routes to #index" do
