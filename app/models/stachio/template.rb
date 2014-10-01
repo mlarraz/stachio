@@ -4,7 +4,6 @@ module Stachio
   class Template < ActiveRecord::Base
     lookup_by :template_name
 
-    attr_accessible :template_name, :description, :content
     validates_presence_of :template_name, :content
 
     attr_accessor :presents, :rendered
