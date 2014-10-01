@@ -20,6 +20,8 @@ require 'spec_helper'
 
 module Stachio
   describe TemplatesController do
+    routes { Stachio::Engine.routes }
+
     # 'render_views' will render any erb /haml/whatever as part of the tests, thus
     # providing some (minimal) assurance that nothing stupid was done
     render_views
