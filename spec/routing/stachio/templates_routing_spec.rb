@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'rails_helper'
 
 module Stachio
   describe TemplatesController do
@@ -7,31 +7,31 @@ module Stachio
     describe "routing" do
 
       it "routes to #index" do
-        get("/").should route_to("stachio/templates#index")
+        expect(get("/")).to route_to("stachio/templates#index")
       end
 
       it "routes to #new" do
-        get("/new").should route_to("stachio/templates#new")
+        expect(get("/new")).to route_to("stachio/templates#new")
       end
 
       it "routes to #show" do
-        get("/1").should route_to("stachio/templates#show", :id => "1")
+        expect(get("/1")).to route_to("stachio/templates#show", :id => "1")
       end
 
       it "routes to #edit" do
-        get("/1/edit").should route_to("stachio/templates#edit", :id => "1")
+        expect(get("/1/edit")).to route_to("stachio/templates#edit", :id => "1")
       end
 
       it "routes to #create" do
-        post("/").should route_to("stachio/templates#create")
+        expect(post("/")).to route_to("stachio/templates#create")
       end
 
       it "routes to #update" do
-        put("/1").should route_to("stachio/templates#update", :id => "1")
+        expect(put("/1")).to route_to("stachio/templates#update", :id => "1")
       end
 
       it "routes to #destroy" do
-        delete("/1").should route_to("stachio/templates#destroy", :id => "1")
+        expect(delete("/1")).to route_to("stachio/templates#destroy", :id => "1")
       end
 
     end
