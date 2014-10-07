@@ -47,7 +47,7 @@ module Stachio
     # POST /templates
     # POST /templates.json
     def create
-      @template = Template.new(params[:template])
+      @template = Template.new(template_params)
 
       respond_to do |format|
         if @template.save
@@ -66,7 +66,7 @@ module Stachio
       @template = Template.find(params[:id])
 
       respond_to do |format|
-        if @template.update_attributes(params[:template])
+        if @template.update_attributes(template_params)
           format.html { redirect_to @template, notice: 'Template was successfully updated.' }
           format.json { head :no_content }
         else
@@ -86,6 +86,12 @@ module Stachio
         format.html { redirect_to templates_url }
         format.json { head :no_content }
       end
+    end
+
+    private
+
+    def template_params
+      params.require(:template).permit(:template_name, :description, :content)
     end
   end
 end

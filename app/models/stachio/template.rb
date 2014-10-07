@@ -2,9 +2,10 @@ module Stachio
   Mustache.raise_on_context_miss = true
 
   class Template < ActiveRecord::Base
+    include ActiveModel::ForbiddenAttributesProtection
+
     lookup_by :template_name
 
-    attr_accessible :template_name, :description, :content
     validates_presence_of :template_name, :content
 
     attr_accessor :presents, :rendered

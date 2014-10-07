@@ -33,7 +33,13 @@ end
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema! if ActiveRecord::VERSION::MAJOR > 3
+if ActiveRecord::VERSION::MAJOR > 3
+  if ActiveRecord::VERSION::MINOR > 0
+    ActiveRecord::Migration.maintain_test_schema!
+  else
+    ActiveRecord::Migration.check_pending!
+  end
+end
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
