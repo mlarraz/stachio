@@ -48,5 +48,5 @@ load 'rails/tasks/engine.rake'
 
 Stachio::Engine.load_tasks
 
-#Bundler::GemHelper.install_tasks
+Bundler::GemHelper.install_tasks
 task :default => ['db:migrate', :spec]
