@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-rails"           ## required by the dummy application
   s.add_dependency "stache", "~> 1.1"       ## use mustache/handlebars for views
   s.add_dependency "mustache"
-  s.add_dependency "handlebars"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails", '~> 3.1.0'
