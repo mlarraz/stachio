@@ -4,5 +4,6 @@ source "http://rubygems.org"
 
 gem "rails", "~> 3.2.0"
 gem "strong_parameters"
+gem "test-unit"
 
 gemspec :path => "../"
